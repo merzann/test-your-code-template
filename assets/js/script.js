@@ -37,6 +37,7 @@ async function postForm(e) {
         body: form,
     });
 
+    // Promise to check results returned from postForm
     const data = await response.json();
 
     if (response.ok) {
@@ -68,15 +69,19 @@ async function getStatus(e) {
 
 // function for handling API errors and displaying a message to user in modal
 function displayException(data) {
-
     let heading = `<div class="error-heading">An Exception Occurred</div>`;
 
-    results = `<div>The API returned status code ${data.status_code}</div>`;
-    results += `<div>Error number: <strong>${data.error_no}</strong></div>`;
-    results += `<div>Error text: <strong>${data.error}</strong></div>`;
+    const statusCode = data.status_code || "N/A";
+    const errorNo = data.error_no || "N/A";
+    const errorText = data.error || "No additional information available.";
 
-    document.getElementById("resultsModalTitle").innerText = heading;
+    let results = `<div>The API returned status code ${statusCode}</div>`;
+    results += `<div>Error number: <strong>${errorNo}</strong></div>`;
+    results += `<div>Error text: <strong>${errorText}</strong></div>`;
+
+    document.getElementById("resultsModalTitle").innerHTML = heading;
     document.getElementById("results-content").innerHTML = results;
+
     resultsModal.show();
 }
 
